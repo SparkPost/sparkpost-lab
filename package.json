@@ -1,18 +1,25 @@
 {
   "name": "sparkpost-lab",
   "version": "0.1.0",
+  "engines": {
+    "node":"6.9.2"
+  },
   "private": true,
   "devDependencies": {
     "react-scripts": "0.8.5"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
   "scripts": {
+    "server": "node server",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "yarn run build"
   }
 }
