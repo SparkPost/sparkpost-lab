@@ -6,17 +6,22 @@
   },
   "private": true,
   "devDependencies": {
+    "concurrently": "^3.1.0",
+    "nodemon": "^1.11.0",
     "react-scripts": "0.8.5"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "fuse-email": "^0.0.1-alpha.2",
+    "knex": "^0.12.6",
+    "pg": "^6.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
   "scripts": {
-    "server": "node server",
+    "dev": "concurrently --kill-others \"npm run server\" \"npm start\"",
+    "server": "nodemon --watch server server",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
