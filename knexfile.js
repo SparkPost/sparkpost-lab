@@ -1,10 +1,8 @@
-// Update with your config settings.
-
 module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      host: 'localhost:5432',
+      host: 'localhost',
       database: 'sparkpost_lab',
       user:     'root',
       password: ''

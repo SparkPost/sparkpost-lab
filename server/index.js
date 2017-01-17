@@ -20,10 +20,6 @@ app.get('*', (req, res) => {
 
 fuse.setupEndpoint(app);
 
-const knex = require('./config/knex');
-
-knex.select().from('test');
-
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
 });
