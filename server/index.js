@@ -6,6 +6,7 @@ const path = require('path');
 const app = express();
 const fuse = require('./fuse');
 const campaignRouter = require('./routes/campaigns');
+const playerRouter = require('./routes/players');
 
 app.set('port', process.env.PORT || 3001);
 
@@ -15,6 +16,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'build')));
 app.use(bodyParser.json());
 
 app.use('/api/campaigns', campaignRouter);
+app.use('/api/players', playerRouter);
 
 fuse.setupEndpoint(app);
 
