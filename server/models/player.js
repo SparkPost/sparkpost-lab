@@ -24,6 +24,10 @@ Player.find = function() {
   return this.query().eager('completions');
 };
 
+Player.findById = function (id) {
+  return this.find().where({ id }).first();
+};
+
 Player.findByAccountId = function (account_id) {
   return this.find().where({ account_id }).first();
 };
@@ -31,8 +35,12 @@ Player.findByAccountId = function (account_id) {
 
 Player.prototype.didChallenge = function(campaign, challengeId) {
   return _.filter(this.completions, (completion) => {
-    return completion.campaign_id === capmaign.id && completion.challenge_id === challengeId;
+    return completion.campaign_id === campaign.id && completion.challenge_id === challengeId;
   }).length > 0;
 }
+
+Player.prototype.completeChallenge = function(campaign, challengeId) {
+  return this.$relatedQuery('completions').insert({ challenge_id: challengeId, campaign_id: campaign.id });
+};
 
 module.exports = Player;

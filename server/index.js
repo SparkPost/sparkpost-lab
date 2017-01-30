@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
-const fuse = require('./fuse');
+const challengesDriver = require('./challenges-driver');
 const campaignRouter = require('./routes/campaigns');
 const playerRouter = require('./routes/players');
 
@@ -18,7 +18,9 @@ app.use(bodyParser.json());
 app.use('/api/campaigns', campaignRouter);
 app.use('/api/players', playerRouter);
 
-fuse.setupEndpoint(app);
+challengesDriver.fuse.setupEndpoint(app);
+app.use(challengesDriver.router);
+
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('*', (req, res) => {
