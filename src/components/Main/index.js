@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo-sparkpost-lab.png';
 
-import './style.css';
-
 class Main extends Component {
 
   render() {
