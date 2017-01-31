@@ -17,11 +17,27 @@ Player.relationMappings = {
       from: 'players.id',
       to: 'completions.player_id'
     }
+  },
+  campaigns: {
+    relation: Model.ManyToManyRelation,
+    modelClass: `${__dirname}/campaign`,
+    join: {
+      from: 'players.id',
+      through: {
+        from: 'completions.player_id',
+        to: 'completions.campaign_id'
+      },
+      to: 'campaigns.id'
+    }
   }
 };
 
 Player.find = function() {
-  return this.query().eager('completions');
+  return this.query()
+             .eager('[completions, campaigns]')
+             .modifyEager('campaigns', (builder) => {
+                builder.distinct('campaigns.id');
+              });
 };
 
 Player.findById = function (id) {

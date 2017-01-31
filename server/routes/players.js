@@ -2,15 +2,33 @@
 
 const router = require('express').Router();
 const Player = require('../models/player');
+const Completion = require('../models/completion');
+const _ = require('lodash');
 
-router.get('/:id', (req, res) => {
-  Player
-    .query()
-    .where('id', req.params.id)
-    .first()
+// player overview
+router.get('/:player_id', (req, res) => {
+  let { player_id } = req.params;
+
+  Player.findById(player_id)
     .then((player) => {
       return res.json({
         results: player
+      });
+    })
+    .catch((err) => {
+      console.log('oh noes', err);
+    });
+});
+
+// player completions for a campaign
+router.get('/:player_id/:campaign_id', (req, res) => {
+  let { player_id, campaign_id } = req.params;
+
+  Completion.query()
+    .where({ player_id, campaign_id })
+    .then((completions) => {
+      return res.json({
+        results: completions
       });
     })
     .catch((err) => {
