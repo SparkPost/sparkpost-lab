@@ -11,12 +11,10 @@ router.get('/:player_id', (req, res) => {
 
   Player.findById(player_id)
     .then((player) => {
-      return res.json({
-        results: player
-      });
+      return res.sendResults(player);
     })
     .catch((err) => {
-      console.log('oh noes', err);
+      return res.sendError(err);
     });
 });
 
@@ -27,12 +25,10 @@ router.get('/:player_id/:campaign_id', (req, res) => {
   Completion.query()
     .where({ player_id, campaign_id })
     .then((completions) => {
-      return res.json({
-        results: completions
-      });
+      return res.sendResults(completions);
     })
     .catch((err) => {
-      console.log('oh noes', err);
+      return res.sendError(err);
     });
 });
 

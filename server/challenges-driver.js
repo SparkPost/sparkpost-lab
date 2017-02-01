@@ -202,7 +202,6 @@ function parseForAccountDetails(inboundMessage) {
 function getOrCreatePlayer(accountId, data) {
   return Player.findByAccountId(accountId)
     .then((player) => {
-
       if (!player) {
         return Player.query().insert(_.assign({}, data, {
           account_id: accountId
