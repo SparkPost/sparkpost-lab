@@ -48,6 +48,10 @@ Player.findByAccountId = function (account_id) {
   return this.find().where({ account_id }).first();
 };
 
+Player.findByEmail = function (email) {
+  return this.find().where({ email }).first();
+};
+
 
 Player.prototype.didChallenge = function(campaign, challengeId) {
   return _.filter(this.completions, (completion) => {
