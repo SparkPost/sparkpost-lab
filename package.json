@@ -4,7 +4,6 @@
   "engines": {
     "node": "6.9.2"
   },
-  "proxy": "http://localhost:3001/",
   "private": true,
   "devDependencies": {
     "@sparkpost/styles": "^1.5.4",
@@ -58,12 +57,17 @@
   "dependencies": {
     "axios": "^0.15.3",
     "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "express-session": "^1.15.0",
     "fuse-email": "^0.0.1-alpha.2",
     "html-to-text": "^3.0.0",
     "knex": "^0.12.6",
     "lodash": "^4.17.4",
+    "moment": "^2.17.1",
     "objection": "^0.6.2",
+    "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

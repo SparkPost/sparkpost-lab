@@ -10,7 +10,9 @@ module.exports = function({ challengeId, player, campaign, responder, req, res }
         requestbin({ data })
           .then((url) => {
             responder.completedChallenge({
-              body: `View the results at ${url}`
+              substitution_data: {
+                message: `View the received data from the webhook at ${url}.`
+              }
             });
 
             res.sendStatus(200);

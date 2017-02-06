@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+      body {
+        background-color: #F2F2F5;
+        color: #55555a;
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: bold;
+        margin: 20px 0;
+      }
+
+      table {
+        width: 100%;
+        font-size: 17px;
+        line-height: 1.5em;
+        border-collapse: collapse;
+      }
+
+      table th {
+        background: #FA6423;
+        padding: 10px;
+        text-align: center;
+        padding: 30px;
+      }
+
+      table th img {
+        width: 200px;
+      }
+
+      table th h1 {
+        font-size: 70px;
+        letter-spacing: 4px;
+        line-height: 1em;
+        margin: 0;
+        text-transform: uppercase;
+        color: #FFF;
+      }
+
+      table td {
+        background-color: #F2F2F5;
+      }
+
+      .panel {
+        background: #FFF;
+        padding: 20px;
+        width: 80%;
+        margin: 40px auto;
+      }
+
+      .button {
+        background: #37aadc;
+        letter-spacing: 1px;
+        line-height: 36px;
+        padding: 0 18px;
+        text-transform: uppercase;
+        color: #FFF;
+        display: inline-block;
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: none;
+        border: 1px solid rgba(200, 74, 19, 0);
+      }
+
+      a {
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none; 
+      }
+
+      hr {
+        width: 100%;
+        margin: 20px 0;
+        border-top: 1px solid #f2f2f5;
+      }
+
+      .text--center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>
+          <img src='https://developers.sparkpost.com/images/logo-sparkpost-white.png' alt='SparkPost'>
+          <h1>Lab</h1>
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <div class='panel'>
+             <div class='panel__body'>
+             {{ body }}
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

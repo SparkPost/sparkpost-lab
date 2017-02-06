@@ -1,0 +1,55 @@
+@import "~@sparkpost/styles/src/assets/scss/shared/config";
+@import "~@sparkpost/styles/src/assets/scss/shared/functions";
+
+.footer {
+  position: static;
+  background: grayscale(1);
+
+  h1, h2, h3, h4, h5, h6, p {
+    color: grayscale(white);
+  }
+
+  &__nav {
+    padding: rem(33) 0;
+
+    border-top: 1px solid grayscale(2);
+
+    .logo {
+      height: rem(30);
+      width: auto;
+    }
+  }
+
+  &__link {
+    display: inline-block;
+    padding: rem(9) rem(12);
+
+    font-family: $gotham-regular;
+    font-size: rem(10);
+    color: grayscale(5);
+    font-weight: 400;
+
+    &:hover {
+      color: grayscale(white);
+      text-decoration: none;
+    }
+
+    @media screen and (min-width: break(md)) {
+      font-size: rem(12);
+      padding: 0 rem(21);
+    }
+  }
+
+  .button {
+    display: block;
+    text-align: center;
+    font-size: rem(11);
+    white-space: nowrap;
+
+    @media screen and (min-width: break(md)) {
+      display: inline-block;
+      font-size: rem(12);
+      text-align: left;
+    }
+  }
+}
