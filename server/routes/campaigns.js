@@ -5,7 +5,20 @@ const knex = require('../utils/knex');
 const Campaign = require('../models/campaign');
 const { isLoggedIn } = require('../utils/middleware');
 
+
 router.get('/', (req, res) => {
+  Campaign
+    .findWhereActive()
+    .then((campaigns) => {
+      return res.sendResults(campaigns);
+    })
+    .catch((err) => {
+      return res.sendError(err);
+    });
+});
+
+// admin get route
+router.get('/all', isLoggedIn, (req, res) => {
   Campaign
     .query()
     .then((campaigns) => {
@@ -18,7 +31,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   Campaign
-    .query()
+    .findWhereActive()
     .where('id', req.params.id)
     .first()
     .then((campaign) => {
@@ -29,13 +42,15 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// Admin endpoints
+// Admin create endpoints
 router.post('/', isLoggedIn, function(req, res) {
-  let { name, localpart, starts_at, ends_at } = req.params;
+  let { name, localpart } = req.body;
+
+  console.log({ name, localpart });
 
   Campaign
     .query()
-    .insert({ name, localpart, starts_at, ends_at })
+    .insert({ name, localpart })
     .then((campaign) => {
       return res.sendResults(campaign);
     })
@@ -44,13 +59,12 @@ router.post('/', isLoggedIn, function(req, res) {
     });
 });
 
-// Admin endpoints
 router.put('/:id/start', isLoggedIn, function(req, res) {
   let { id } = req.params;
 
   Campaign
     .query()
-    .updateAndFetchById(id, { start: knex.fn.now() })
+    .updateAndFetchById(id, { starts_at: knex.fn.now() })
     .then((campaign) => {
       return res.sendResults(campaign);
     })
@@ -59,7 +73,6 @@ router.put('/:id/start', isLoggedIn, function(req, res) {
     });
 });
 
-// Admin endpoints
 router.put('/:id/end', isLoggedIn, function(req, res) {
   let { id } = req.params;
 
