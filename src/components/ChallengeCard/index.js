@@ -33,7 +33,7 @@ class ChallengeCard extends Component {
   }
 
   renderInstructions() {
-    return (<p>{ this.props.instructions(this.props) }</p>);
+    return (<p dangerouslySetInnerHTML={{ __html: this.props.instructions(this.props) }}></p>);
   }
 
   renderCompletedNote() {

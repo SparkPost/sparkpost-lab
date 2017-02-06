@@ -19,7 +19,7 @@ export default (props) => (
         <img src="https://www.sparkpost.com/wp-content/themes/jolteon/images/sparkpost-logo.png" alt="" className="logo"/>
       </a>
       <div className="float--right">
-        <a href={`${config.api_base}/auth`} title="Features" className="footer__link">Admin</a>
+        <a href={`${config.api_base}/auth`} title="Admin" className="footer__link">Admin</a>
         <a href="https://www.sparkpost.com/features" title="Features" className="footer__link">Features</a>
         <a href="https://www.sparkpost.com/pricing" title="Pricing" className="footer__link">Pricing</a>
         <a href="https://www.sparkpost.com/blog" title="Blog" className="footer__link">Blog</a>

@@ -7,7 +7,13 @@ const challenges = {
     up_next: 'SEND_WITH_CUSTOM',
     instructions: function(data) {
       var campaign = data.campaign;
-      return 'Send an email to '+campaign.localpart+'@'+config.email_domain+' using the sparkpostbox.com sandbox domain. Note: you must complete this before any other campaigns.';
+      return 'Send an email to '+campaign.localpart+'@'+config.email_domain+' using the sparkpostbox.com sandbox domain. ' +
+        'Be sure to do the following: <ul>' +
+        '<li>Set the Subject to "Challenge 1"</li>' +
+        '<li>In the body of the email, copy/paste and fill in the following: <br />' +
+        'First Name: <br />Last Name: <br />Email: </li>' +
+        '</ul>' +
+        '<em>Note: you must complete this before any other campaigns.<em>';
     },
     links: {
       "Sign Up for SparkPost": "https://app.sparkpost.com/sign-up?"+config.tracking_code,
