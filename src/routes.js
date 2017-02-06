@@ -1,13 +1,21 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute, Redirect } from 'react-router';
 
-import App from './components/App';
-import Main from './components/Main';
+import App from './pages/App';
+import Main from './pages/Main';
+import CampaignHome from './pages/Campaign/Home';
+import CampaignPlayer from './pages/Campaign/Player';
+import NotFound from './pages/NotFound';
+import Admin from './pages/Admin';
 
 export default (
-  <Route>
-    <Route path='/' component={App}>
-      <IndexRoute component={Main} />
-    </Route>
+  <Route path='/' component={App}>
+    <IndexRoute component={Main} />
+    <Redirect from="campaign/" to="/" />
+    <Route path='/campaign/:campaign_id' component={CampaignHome} />
+    <Redirect path='/campaign/:campaign_id/player/' to="/campaign/:campaign_id" />
+    <Route path='/campaign/:campaign_id/player/:player_id' component={CampaignPlayer} />
+    <Route path='/admin' component={Admin} />
+    <Route path='*' component={NotFound} />
   </Route>
 );

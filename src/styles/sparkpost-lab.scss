@@ -31,37 +31,58 @@ $fa-font-path: "~@sparkpost/styles/src/assets/fonts";
 @import "~@sparkpost/styles/src/assets/scss/components/formelements";
 @import "~@sparkpost/styles/src/assets/scss/components/popover";
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+html {
+  background: grayscale(9);
+  @media screen and (min-width: break(xl)) {
+    font-size: 20px;
+  }
 }
 
-.jumbotron {
-  background: #fa6423 url("./sparkpost-lab-bg.png") center center;
+a { 
+  cursor: pointer;
 }
 
-.App {
-  text-align: center;
+.text--mustard {
+  color: color(mustard);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.text--green {
+  color: color(green);
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.panel {
+  position: relative;
+  
+  &__overlay {
+    background: rgba(#FFF, .8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+  }
+
+  &__lock {
+    color: grayscale(3);
+    font-size: rem(70);
+  }
+
 }
 
-.App-intro {
-  font-size: large;
-}
+.container {
+  margin: 0 auto;
+  width: 90%;
+  max-width: break(xl);
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  &--content {
+    padding: rem(30) 0;
+
+    min-height: 0;
+    @media screen and (min-width: break(md)) {
+      padding: rem(60) 0;
+      min-height: 70vh;
+    }
+  }
 }
