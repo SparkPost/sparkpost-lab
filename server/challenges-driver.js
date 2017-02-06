@@ -6,16 +6,20 @@ const Campaign = require('./models/campaign');
 const htmlToText = require('html-to-text');
 const challengeConfig = require('./challenges');
 const DO_FIRST = 'SEND_WITH_SANDBOX';
+const config = require('./config');
+const sparkpostLabTemplate = `${__dirname}/challenges/response.html`;
+const fs = require('fs');
 
 const fuse = Fuse({
   email_key: process.env.SPARKPOST_API_KEY,
   domain: 'lab.sparkpost.com',
   name: 'SparkPost Lab',
-  sending_address: 'sparkpost_lab@lab.sparkpost.com',
-  inbound_address: 'sparkpost_lab@lab.sparkpost.com',
+  sending_address: `sparkpost_lab@${config.email_domain}`,
+  inbound_address: `sparkpost_lab@${config.email_domain}`,
   restrict_inbound: false,
-  endpoint: '/incoming',
+  endpoint: '/incoming'
 });
+
 
 fuse.hears({ subject: ['Challenge 1'] }, 'direct_email', function(responder, inboundMessage) {
   let accountId = getAccountId(inboundMessage);
@@ -102,43 +106,93 @@ router.post('/webhook/:localpart/:playerId', function(req, res) {
 });
 
 
-
 function addLabResponders({ responder, player, campaign, challengeId }) {
   let challenge = challengeConfig[challengeId];
+  let nextChallenge = challenge.up_next ? challengeConfig[challenge.up_next] : null;
 
   let outboundMessageDefaults = {
     options: {
       transactional: true,
+      inline_css: true
     },
     recipients: [
       { name: `${player.first_name} ${player.last_name}`, email: player.email }
     ],
     from: {
-      email: `${campaign.localpart}@lab.sparkpost.com`
+      email: `${campaign.localpart}@${config.email_domain}`
     },
     reply_to: {
-      email: 'feedback@lab.sparkpost.com'
+      email: `feedback@${config.email_domain}`
     },
-    substitution_data: { player, campaign, challenge }
+    substitution_data: { player, campaign, challenge },
+  }; 
+
+  responder.sendTemplate = function(data) {
+    data = data || {};
+
+    _.defaults(outboundMessageDefaults.substitution_data, data.substitution_data || {});
+    delete data.substitution_data;
+
+    fs.readFile(sparkpostLabTemplate, function (err, template) {
+      if (!err) {
+        template = template.toString();
+        template = template.replace(/{{\s+body\s+}}/, data.body || '');
+        data.body = template;
+       }
+
+       responder.send(_.defaults(data, outboundMessageDefaults));
+    });
   };
 
   responder.completedChallenge = function(data) {
     data = data || {};
 
-    data.subject = data.subject || `Awesome! You finished "{{challenge.name}}"`;
-    data.body = data.body || 'Well done! You\'re doing great';
+    if (nextChallenge) {
+      data.substitution_data = _.defaults({
+        nextLinks: _.map(nextChallenge.links, (url, label) => {
+          return { url, label };
+        }) || []
+      }, data.substitution_data);
+    }
 
-    responder.send(_.defaults(data, outboundMessageDefaults));
+    data.subject = data.subject || `Awesome! You finished "{{ challenge.name }}"`;
+    data.body = data.body || `<h1 class="text--center">Great job!</h1>
+      <img src="http://www.bhmpics.com/walls/success_kid-other.jpg" alt="Success Kid" width="300" style="margin: 20px auto; display: block;"/>
+      {{ if message }}
+        {{ message }}
+      {{ end }}
+      <hr />
+      ${nextChallenge ? `<h2>For your next challenge...${nextChallenge.name}</h2>
+                         ${nextChallenge.instructions({ player, campaign })}
+                         <hr />
+                         {{ each nextLinks }}
+                         <a href="{{{ loop_var.label }}}">{{ loop_var.label }}</a>&nbsp;&nbsp;&nbsp;
+                         {{ end }}
+                         <br />` : ''}
+      <div class="text--center"><a href="http://lab.sparkpost.com/campaign/${campaign.id}/player/${player.id}" class="button">Your Dashboard</a></div>`;
+
+    responder.sendTemplate(data);
   };
 
   responder.failedChallenge = function(data) {
     data = data || {};
 
-    data.subject = data.subject || `Woops a bit of a mistake somewhere for "${challenge.name}"`;
-    data.body = data.body || 'Try again. Here are the instructions again...';
+    data.substitution_data = _.defaults({
+      links: _.map(challenge.links, (url, label) => {
+        return { url, label };
+      })
+    }, data.substitution_data);
 
+    data.subject = data.subject || `Woops a bit of a mistake somewhere for "{{ challenge.name }}"`;
+    data.body = data.body || `<h2>Hey {{ player.first_name }},</h2>
+    Looks like there was a bit of a mistake somewhere for "{{ challenge.name }}".
+    Give it another try! <h2>Instructions</h2>${challenge.instructions({ player, campaign })}
+    <hr />
+    {{ each links }}
+    <a href="{{{ loop_var.label }}}">{{ loop_var.label }}</a>&nbsp;&nbsp;&nbsp;
+    {{ end }}`;
 
-    responder.send(_.defaults(data, outboundMessageDefaults));
+    responder.sendTemplate(data);
   };
 }
 
@@ -234,9 +288,9 @@ function doChallenge({ player, campaign, challengeId, responder, res }) {
       res.sendStatus(400);
     }
     else {
-      responder.failedChallenge({
+      responder.sendTemplate({
         subject: 'Woops! Been there, done that.',
-        body: 'Hey {{ player.name }},<br>Looks like you already did that challenge for the {{ campaign.name }} campaign.'
+        body: '<h2>Hey {{ player.first_name }},</h2>Looks like you already did "{{ challenge.name }}" for {{ campaign.name }}.'
       });
     }
     return;
@@ -250,10 +304,10 @@ function handleUnknownCampaign() {
   console.log('unkown campaign');
 }
 
-function handleSkippedFirstChallenge(responder, challenge) {
-  return responder.failedChallenge({
+function handleSkippedFirstChallenge(responder, firstChallenge) {
+  return responder.sendTemplate({
     subject: 'First comes first',
-    body: `Hey {{ player.first_name }},<br>Looks like you haven\'t done ${challenge.name}. You must do that challenge before the others. After that, go crazy.`
+    body: `<h2>Hey {{ player.first_name }},</h2>Looks like you haven\'t done ${firstChallenge.name}. You must do that challenge before the others.`
   });
 }
 
