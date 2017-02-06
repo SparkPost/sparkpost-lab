@@ -19,7 +19,7 @@ class Main extends Component {
     axios.get(`${config.api_base}/api/campaigns/${this.props.params.campaign_id}`)
       .then(({ data }) => {
         let campaign = data.results;
-        
+
         if (!campaign)
           this.props.router.push(`/`);
 
@@ -57,6 +57,8 @@ class Main extends Component {
         <div className="flex center-xs">
           <div className="col-xs-8 text--left">
             <div>
+              <h1>{this.state.campaign.name}</h1>
+              <p className="marginBottom--lg">Learn how to use SparkPost by completing challenges using your SparkPost account. The more challenges you complete, the more awesome SparkPost swag you could receive.</p>
               <h3>View your progress!</h3>
               <form onSubmit={ (e) => this.handleSubmit(e) }>
                 <fieldset className="fieldset">

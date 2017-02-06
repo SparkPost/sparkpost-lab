@@ -31,7 +31,7 @@ const challenges = {
         '<li>Create and verify a Sending Domain in your account.</li>' +
         '<li>Set the Subject to "Challenge 2"</li>' +
         '<li>In the body of the email, copy/paste and fill in the following: <br />' +
-        'Full Address: <br />Twitter: </li>' +
+        'Mailing Address: <br />Twitter: </li>' +
         '</ul>' +
         '<strong>Prize:</strong> A SparkPost Tool Pen';
     },
