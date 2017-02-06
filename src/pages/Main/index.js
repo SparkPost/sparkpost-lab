@@ -24,7 +24,7 @@ class Main extends Component {
     return (
       <div className="flex">
         <div className="col-xs-8 col-xs-offset-2">
-          <p className="marginBottom--lg">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui animi consectetur voluptatem, nisi quas consequuntur non reprehenderit laboriosam dicta. Molestias non eligendi consequuntur, praesentium voluptatibus repudiandae quasi iusto ducimus ipsum, nostrum tempore sit aspernatur cumque quod provident aliquid totam! Sapiente.</p>
+          <p className="marginBottom--lg">Learn how to use SparkPost by completing challenges using your SparkPost account. The more challenges you complete, the more awesome SparkPost Swag you could receive.</p>
           { this.state.campaigns.map((campaign) => <CampaignCard key={campaign.id} {...campaign} />)}
 
           { !this.state.campaigns.length ? <h1 className="text--center">Check back later.</h1> : '' }
