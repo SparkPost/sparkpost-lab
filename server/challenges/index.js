@@ -45,14 +45,11 @@ const challenges = {
     instructions: function(data) {
       var campaign = data.campaign, player = data.player;
 
-      return 'Create a Webhook for a click event and trigger it. <ul>' +
+      return 'Create a Webhook. <ul>' +
         '<li>Create a Webhook in your account.</li>' +
         '<li>' +
         (player ? ('Set the Target URL to http://lab.sparkpost.com/webhook/' + campaign.localpart + '/'  + player.id + '.') : 'Enter your email or SparkPost ID above to see your custom endpoint.') +
         '</li>' +
-        '<li>Check only Click for the Event.</li>' +
-        '<li>Send an email with a link to yourself.</li>' +
-        '<li>Open the email and click the link to trigger the Click event.' +
         '</ul>' +
         '<strong>Prize:</strong> A SparkPost Beanie';
     },
