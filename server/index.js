@@ -15,6 +15,11 @@ const playerRouter = require('./routes/players');
 const passport = require('./utils/passport');
 const { responseHelpers } = require('./utils/middleware');
 const config = require('./config');
+const knex = require('./utils/knex');
+
+if (process.env.NODE_ENV === 'production') {
+  knex.migrate.latest();
+}
 
 app.set('port', process.env.PORT || 3001);
 
