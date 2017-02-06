@@ -13,7 +13,8 @@ const challenges = {
         '<li>In the body of the email, copy/paste and fill in the following: <br />' +
         'First Name: <br />Last Name: <br />Email: </li>' +
         '</ul>' +
-        '<em>Note: you must complete this before any other campaigns.<em>';
+        '<em>Note: you must complete this before any other campaigns.</em><br />' +
+        '<strong>Prize:</strong> A SparkPost Lab "I Emailed" Sticker';
     },
     links: {
       "Sign Up for SparkPost": "https://app.sparkpost.com/sign-up?"+config.tracking_code,
@@ -25,7 +26,14 @@ const challenges = {
     up_next: 'CREATE_WEBHOOK',
     instructions: function(data) {
       var campaign = data.campaign;
-      return 'Send an email to '+campaign.localpart+'@'+config.email_domain+' using your own sending domain.';
+      return 'Send an email to '+campaign.localpart+'@'+config.email_domain+' using your own sending domain. ' +
+        'Be sure to do the following: <ul>' +
+        '<li>Create and verify a Sending Domain in your account.</li>' +
+        '<li>Set the Subject to "Challenge 2"</li>' +
+        '<li>In the body of the email, copy/paste and fill in the following: <br />' +
+        'Full Address: <br />Twitter: </li>' +
+        '</ul>' +
+        '<strong>Prize:</strong> A SparkPost Tool Pen';
     },
     links: {
       "Create Sending Domains": "https://support.sparkpost.com/customer/portal/articles/1933318-creating-sending-domains",
@@ -37,12 +45,16 @@ const challenges = {
     instructions: function(data) {
       var campaign = data.campaign, player = data.player;
 
-      if (player) {
-        return '';
-      }
-      else {
-
-      }
+      return 'Create a Webhook for a click event and trigger it. <ul>' +
+        '<li>Create a Webhook in your account.</li>' +
+        '<li>' +
+        (player ? ('Set the Target URL to http://lab.sparkpost.com/webhook/' + campaign.localpart + '/'  + player.id + '.') : 'Enter your email or SparkPost ID above to see your custom endpoint.') +
+        '</li>' +
+        '<li>Check only Click for the Event.</li>' +
+        '<li>Send an email with a link to yourself.</li>' +
+        '<li>Open the email and click the link to trigger the Click event.' +
+        '</ul>' +
+        '<strong>Prize:</strong> A SparkPost Beanie';
     },
     links: {
       "Defining Webhooks": "https://support.sparkpost.com/customer/portal/articles/1929974?_ga=1.216332630.1390593345.1485868716",
