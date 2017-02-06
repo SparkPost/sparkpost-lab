@@ -29,7 +29,7 @@ const challenges = {
   CREATE_WEBHOOK: {
     name: 'Create a webhook',
     instructions: function(data) {
-      let campaign = data.campaign, player = data.player;
+      var campaign = data.campaign, player = data.player;
 
       if (player) {
         return '';
