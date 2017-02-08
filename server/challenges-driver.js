@@ -23,7 +23,7 @@ const fuse = Fuse({
 
 fuse.hears({ subject: ['Challenge 1'] }, 'direct_email', function(responder, inboundMessage) {
   let accountId = getAccountId(inboundMessage);
-  let accountDetails = parseForAccountDetails(inboundMessage);
+  let accountDetails = parseForAccountDetails(inboundMessage, ['email', 'first name', 'last name']);
   let challengeId = 'SEND_WITH_SANDBOX';
 
   getOrCreatePlayer(accountId, accountDetails)
@@ -45,6 +45,7 @@ fuse.hears({ subject: ['Challenge 1'] }, 'direct_email', function(responder, inb
 
 fuse.hears({ subject: ['Challenge 2'] }, 'direct_email', function(responder, inboundMessage) {
   let accountId = getAccountId(inboundMessage);
+  let accountDetails = parseForAccountDetails(inboundMessage, ['mailing address', 'twitter']);
   let challengeId = 'SEND_WITH_CUSTOM';
 
   Player.findByAccountId(accountId)
@@ -54,7 +55,7 @@ fuse.hears({ subject: ['Challenge 2'] }, 'direct_email', function(responder, inb
       getCampaign(inboundMessage)
         .then((campaign) => {
           if (campaign) {
-            doChallenge({ challengeId, player, campaign, responder, inboundMessage });
+            doChallenge({ challengeId, player, campaign, responder, inboundMessage, accountDetails });
           }
           else {
             handleUnknownCampaign();
@@ -218,9 +219,7 @@ function getAccountId(inboundMessage) {
   return null;
 }
 
-function parseForAccountDetails(inboundMessage) {
-  const keys = ['email', 'first name', 'last name'];
-
+function parseForAccountDetails(inboundMessage, keys) {
   let details = {};
 
   let lines = htmlToText.fromString(inboundMessage.html, _.assign({}, fuse.config.htmlToTextOpts, {
