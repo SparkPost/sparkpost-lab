@@ -9,8 +9,8 @@ export default (props) => (
     <div className='flex paddingTop--xxl paddingBottom--xxl'>
       <div className='col-xs-12 col-md-8'>
         <h1>Start sending email in minutes!</h1>
-        <p className='marginBottom--lg'>The world’s most powerful email delivery solution is now yours in a developer-friendly, quick to set up cloud service. Open a SparkPost account today and send up to <b>100,000 emails per month for free.</b></p>
-        <a href={`http://app.sparkpost.com/sign-up?${config.tracking_code}`} title='SparkPost' className='button button--l button--blue'>Send 100K Emails/Month for free</a>
+        <p className='marginBottom--lg'>The world’s most powerful email delivery solution is now yours in a developer-friendly, quick to set up cloud service. Open a SparkPost account today and get started for free.</p>
+        <a href={`http://app.sparkpost.com/sign-up?${config.tracking_code}`} title='SparkPost' className='button button--l button--blue'>Get Started</a>
       </div>
     </div>
 
